@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -x
+set -x
 
 [ $# -eq 0 ] && { echo "Uso: $0 nombre-microservicio"; exit 1; }
 
@@ -17,6 +17,10 @@ asigna_base(){
   fi
 }
 
+liquidocker(){
+    docker run --rm -v $(pwd):/liquibase/ -e "LIQUIBASE_URL=jdbc:sqlserver://172.16.0.142:1433;database=$1" -e "LIQUIBASE_USERNAME=sa" -e "LIQUIBASE_PASSWORD=Password01" -e "LIQUIBASE_CHANGELOG=$2/changelog-index.json" registry.dev.redbee.io/liquibase-mssql:latest updateSQL
+}
+
 if [ $1 == 'all' -o $1 == 'ALL' ]
 then
   echo "##################################################################"
@@ -27,7 +31,7 @@ then
     echo -e "\n####### DIRECTORIO: $(echo $i |awk -F \/ '{print $2}')"
     DIR=$(echo $i |awk -F\/ '{print $2}')
     asigna_base $DIR
-    docker run --rm -v $(pwd):/liquibase/ -e "LIQUIBASE_URL=jdbc:sqlserver://172.16.0.142:1433;database=$BASE" -e "LIQUIBASE_USERNAME=sa" -e "LIQUIBASE_PASSWORD=Password01" -e "LIQUIBASE_CHANGELOG=$DIR/changelog-index.json" registry.dev.redbee.io/liquibase-mssql:latest updateSQL
+    liquidocker $BASE $DIR
   done
 else
   DIR=$1
@@ -36,5 +40,5 @@ else
   echo "Verifico los changelogs/changesets del directorio $DIR"
   echo "##################################################################"
   echo -e '\n'
-  docker run --rm -v $(pwd):/liquibase/ -e "LIQUIBASE_URL=jdbc:sqlserver://172.16.0.142:1433;database=$BASE" -e "LIQUIBASE_USERNAME=sa" -e "LIQUIBASE_PASSWORD=Password01" -e "LIQUIBASE_CHANGELOG=$DIR/changelog-index.json"  registry.dev.redbee.io/liquibase-mssql:latest updateSQL
+  liquidocker $BASE $DIR
 fi
