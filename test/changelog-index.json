@@ -1,0 +1,13 @@
+{
+  "databaseChangeLog": [
+    {
+      "comment": "Test de cambios"
+    },
+    {
+      "include":
+        {
+        "file": "tables/CreateTable-person.json", "relativeToChangelogFile": true
+        }
+    }
+  ]
+}
