@@ -6,15 +6,14 @@
 
 # Detectamos las bases con nombres sin normalizar
 asigna_base(){
-  D=$1
-  if [ $D == 'Oauth2' ]
+  if [ $1 == 'Oauth2' ]
   then
     BASE="Security"
-  elif [ $D == 'Fees' ]
+  elif [ $1 == 'Fees' ]
   then
     BASE="Impuesto"
   else
-    BASE=$D
+    BASE=$1
   fi
 }
 
