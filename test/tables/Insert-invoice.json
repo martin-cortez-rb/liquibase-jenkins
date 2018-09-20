@@ -1,0 +1,32 @@
+{"databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2",
+        "author": "mcortez",
+        "comment": "Se insertan datos en tabla invoices.",
+        "preConditions": [{
+          "onFail":"HALT",
+          "onFailMessage":"La tabla sites no existe.",
+          "tableExist": {
+            "schemaName": "invoice_mgmt",
+            "tableName": "invoices"
+          }
+        }],
+        "changes": [
+          {"sql":
+              {
+                "sql": "INSERT INTO invoices (invoice_id,documentno,expected_date) VALUES (4,'B00010000004','2018-09-28 11:03:52.000');"
+              }
+          }
+        ],
+        "rollback": [
+          {
+            "sql": {
+              "sql": "delete from invoices where invoice_id = 4;"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

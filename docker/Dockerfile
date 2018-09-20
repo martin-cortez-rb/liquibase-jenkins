@@ -3,14 +3,16 @@ FROM java:latest
 LABEL maintainer=martin.cortez@redb.ee
 
 ENV LIQUIBASE_VERSION="3.6.2" \
-    LIQUIBASE_DRIVER="com.microsoft.sqlserver.jdbc.SQLServerDriver" \
-    LIQUIBASE_CLASSPATH="/opt/liquibase/lib/sqljdbc42.jar" \
+    LIQUIBASE_DRIVER=""\
+    LIQUIBASE_CLASSPATH="" \
     LIQUIBASE_URL="" \
     LIQUIBASE_USERNAME="" \
     LIQUIBASE_PASSWORD="" \
     LIQUIBASE_CHANGELOG="" \
     LIQUIBASE_CONTEXTS="" \
-    LIQUIBASE_OPTS="" 
+    LIQUIBASE_OPTS="" \
+    LIQUIBASE_SCHEMA="" \
+    LIQUIBASE_LOGLEVEL=""
 
 COPY conf/ /opt/docker/
 

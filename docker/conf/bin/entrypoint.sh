@@ -44,8 +44,18 @@ if [[ -n "$LIQUIBASE_CHANGELOG" ]]; then
     echo "changeLogFile: ${LIQUIBASE_CHANGELOG}" >> /liquibase.properties
 fi
 
-echo "defaultSchemaName: dbo" >> /liquibase.properties
-echo "logLevel: debug" >> /liquibase.properties
+## Database schema file
+if [[ -n "$LIQUIBASE_SCHEMA" ]]; then
+    echo "defaultSchemaName: ${LIQUIBASE_SCHEMA}" >> /liquibase.properties
+fi
+
+## Database schema file
+if [[ -n "$LIQUIBASE_LOGLEVEL" ]]; then
+    echo "logLevel: ${LIQUIBASE_LOGLEVEL}" >> /liquibase.properties
+fi
+
+#echo "defaultSchemaName: dbo" >> /liquibase.properties
+#echo "logLevel: debug" >> /liquibase.properties
 
 function executeLiquibase() {
     exec /opt/liquibase/liquibase $LIQUIBASE_OPTS "$@"

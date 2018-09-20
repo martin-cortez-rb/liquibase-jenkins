@@ -8,6 +8,12 @@
         {
         "file": "tables/CreateTable-person.json", "relativeToChangelogFile": true
         }
+    },
+    {
+      "include":
+        {
+        "file": "tables/Insert-invoice.json", "relativeToChangelogFile": true
+        }
     }
   ]
 }

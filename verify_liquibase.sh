@@ -17,8 +17,17 @@ asigna_base(){
   fi
 }
 
-liquidocker(){
-    docker run --rm -v $(pwd):/liquibase/ -e "LIQUIBASE_URL=jdbc:sqlserver://172.16.0.142:1433;database=$1" -e "LIQUIBASE_USERNAME=sa" -e "LIQUIBASE_PASSWORD=Password01" -e "LIQUIBASE_CHANGELOG=$2/changelog-index.json" registry.dev.redbee.io/liquibase-mssql:latest updateSQL
+liquidocker() {
+    docker run --rm -v $(pwd):/liquibase/ \
+    -e "LIQUIBASE_URL=jdbc:jtds:sqlserver://172.16.0.95:1433;database=$1" \
+    -e "LIQUIBASE_USERNAME=sa" \
+    -e "LIQUIBASE_PASSWORD=Password01" \
+    -e "LIQUIBASE_SCHEMA=dbo" \
+    -e "LIQUIBASE_DRIVER=net.sourceforge.jtds.jdbc.Driver" \
+    -e "LIQUIBASE_LOGLEVEL=info" \
+    -e "LIQUIBASE_CONTEXTS=dev" \
+    -e "LIQUIBASE_CHANGELOG=$2/changelog-index.json"  \
+    registry.dev.redbee.io/liquibase-mssql:latest $3
 }
 
 if [ $1 == 'all' -o $1 == 'ALL' ]
@@ -31,7 +40,10 @@ then
     echo -e "\n####### DIRECTORIO: $(echo $i |awk -F \/ '{print $2}')"
     DIR=$(echo $i |awk -F\/ '{print $2}')
     asigna_base $DIR
-    liquidocker $BASE $DIR
+    echo "####### VALIDATE:"
+    liquidocker $BASE $DIR validate
+    echo "####### UPDATESQL:"
+    liquidocker $BASE $DIR updateSQL
   done
 else
   DIR=$1
@@ -40,5 +52,8 @@ else
   echo "Verifico los changelogs/changesets del directorio $DIR"
   echo "##################################################################"
   echo -e '\n'
-  liquidocker $BASE $DIR
+  echo "####### VALIDATE:"
+  liquidocker $BASE $DIR validate
+  echo "####### UPDATESQL:"
+  liquidocker $BASE $DIR updateSQL
 fi
