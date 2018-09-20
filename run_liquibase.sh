@@ -2,7 +2,7 @@
 
 set -x
 
-[ $# -eq 0 ] && { echo "Uso: $0 nombre-microservicio"; exit 1; }
+[ $# -eq 0 ] && { echo "Uso: $0 <nombre-microservicio> <liquibase_command>"; exit 1; }
 
 # Detectamos las bases con nombres sin normalizar
 asigna_base(){
@@ -30,6 +30,8 @@ liquidocker() {
     registry.dev.redbee.io/liquibase-mssql:latest $3
 }
 
+CMD=$2
+
 if [ $1 == 'all' -o $1 == 'ALL' ]
 then
   echo "##################################################################"
@@ -40,10 +42,8 @@ then
     echo -e "\n####### DIRECTORIO: $(echo $i |awk -F \/ '{print $2}')"
     DIR=$(echo $i |awk -F\/ '{print $2}')
     asigna_base $DIR
-    echo "####### VALIDATE:"
-    liquidocker $BASE $DIR validate
-    echo "####### UPDATESQL:"
-    liquidocker $BASE $DIR updateSQL
+    echo "####### $CMD:"
+    liquidocker $BASE $DIR $CMD
   done
 else
   DIR=$1
@@ -52,8 +52,6 @@ else
   echo "Verifico los changelogs/changesets del directorio $DIR"
   echo "##################################################################"
   echo -e '\n'
-  echo "####### VALIDATE:"
-  liquidocker $BASE $DIR validate
-  echo "####### UPDATESQL:"
-  liquidocker $BASE $DIR updateSQL
+  echo "####### $CMD:"
+  liquidocker $BASE $DIR $CMD
 fi
