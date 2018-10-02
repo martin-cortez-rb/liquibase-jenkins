@@ -6,10 +6,10 @@
         "comment": "Se insertan datos en tabla invoices.",
         "preConditions": [{
           "onFail":"HALT",
-          "onFailMessage":"La tabla sites no existe.",
-          "tableExist": {
-            "schemaName": "invoice_mgmt",
-            "tableName": "invoices"
+          "onFailMessage":"El registro que se desea insertar en la tabla invoices ya existe.",
+          "sqlCheck": {
+            "expectedResult": "0",
+            "sql": "select count(*) from invoices where invoice_id in (4);"
           }
         }],
         "changes": [

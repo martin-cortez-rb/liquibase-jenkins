@@ -4,6 +4,16 @@
             "changeSet": {
                 "id": "1",
                 "author": "mcortez",
+                "preConditions": [{
+                    "onFail": "WARN",
+                    "onFailMessage": "La tabla person ya existe",
+                    "not": {
+                        "tableExists": {
+                            "schemaName": "invoice_mgmt",
+                            "tableName": "person"
+                        }
+                    }
+                }],
                 "changes": [
                     {
                         "createTable": {
