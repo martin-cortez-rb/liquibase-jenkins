@@ -2,7 +2,7 @@
 
 set -x
 
-[ $# -lt 3 ] && { echo "Uso: $0 <nombre-microservicio> <liquibase_command> <socket>"; exit 1; }
+[ $# -lt 3 ] && { echo "Uso: $0 <nombre-microservicio> <socket> <liquibase_command> "; exit 1; }
 
 # Detectamos las bases con nombres sin normalizar
 asigna_base(){
@@ -21,19 +21,19 @@ asigna_base(){
 #-e "LIQUIBASE_CONTEXTS=dev" \
 liquidocker() {
     docker run --rm -v $(pwd):/liquibase/ \
-    -e "LIQUIBASE_URL=jdbc:jtds:sqlserver://$4/$1" \
+    -e "LIQUIBASE_URL=jdbc:jtds:sqlserver://$3/$1" \
     -e "LIQUIBASE_USERNAME=sa" \
     -e "LIQUIBASE_PASSWORD=Password01" \
     -e "LIQUIBASE_SCHEMA=dbo" \
     -e "LIQUIBASE_DRIVER=net.sourceforge.jtds.jdbc.Driver" \
-    -e "LIQUIBASE_LOGLEVEL=info" \
+    -e "LIQUIBASE_LOGLEVEL=debug" \
     -e "LIQUIBASE_CHANGELOG=$2/changelog-index.json"  \
-    registry.dev.redbee.io/liquibase-mssql:latest $3
+    registry.dev.redbee.io/liquibase-mssql:latest $4
 }
 
 DIR=$1
-CMD=$2
-SOCKET=$3
+CMD=$3
+SOCKET=$2
 
 echo "##################################################################"
 echo "Ejecuto $CMD para los changelogs/changesets del directorio $DIR"
@@ -41,4 +41,4 @@ echo "##################################################################"
 echo -e '\n'
 asigna_base $DIR
 echo "####### $CMD:"
-liquidocker $BASE $DIR $CMD $SOCKET
+liquidocker $BASE $DIR $SOCKET $CMD
