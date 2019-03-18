@@ -83,7 +83,7 @@ if [[ "$#" -ge 1 ]]; then
             ## Documentation Commands
         dbDoc) ;&
             ## Maintenance Commands
-        status|validate|changelogSync|changelogSyncSQL|markNextChangeSetRan|listLocks|releaseLocks|dropAll|clearCheckSums|)
+        status|validate|changelogSync|changelogSyncSQL|markNextChangeSetRan|listLocks|releaseLocks|dropAll|clearCheckSums)
             if [[ "$#" -eq 0 ]]; then
                 executeLiquibase "$TASK"
             else
