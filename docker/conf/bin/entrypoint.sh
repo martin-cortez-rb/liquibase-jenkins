@@ -78,10 +78,12 @@ if [[ "$#" -ge 1 ]]; then
         rollback|rollbackToDate|rollbackCount|rollbackSQL|rollbackToDateSQL|rollbackCountSQL|updateTestingRollback) ;&
             ## Diff Commands
         diff|diffChangeLog) ;&
+            ## Tag Commands
+        tag|tagExists) ;&
             ## Documentation Commands
         dbDoc) ;&
             ## Maintenance Commands
-        status|validate|changelogSync|changelogSyncSQL|markNextChangeSetRan|listLocks|releaseLocks|dropAll|clearCheckSums)
+        status|validate|changelogSync|changelogSyncSQL|markNextChangeSetRan|listLocks|releaseLocks|dropAll|clearCheckSums|)
             if [[ "$#" -eq 0 ]]; then
                 executeLiquibase "$TASK"
             else

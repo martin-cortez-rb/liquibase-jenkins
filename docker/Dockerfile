@@ -2,7 +2,7 @@ FROM java:latest
 
 LABEL maintainer=martin.cortez@redb.ee
 
-ENV LIQUIBASE_VERSION="3.6.2" \
+ENV LIQUIBASE_VERSION="3.6.3" \
     LIQUIBASE_DRIVER=""\
     LIQUIBASE_CLASSPATH="" \
     LIQUIBASE_URL="" \
